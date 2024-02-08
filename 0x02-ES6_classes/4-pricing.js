@@ -1,36 +1,65 @@
 import Currency from './3-currency';
 
+/**
+ * Represents a class Pricing.
+ */
 export default class Pricing {
-  /* eslint-disable */
+  /**
+   * Creates a new Pricing instance.
+   *
+   * @param {String} amount - The amount.
+   * @param {String} currency - The currency.
+   */
   constructor(amount, currency) {
-    this._currency = currency;
-    this._amount = amount;
-  }
-
-  // getter 
-  get currency() {
-    return this._currency;
+    this.amount = amount;
+    this.currency = currency;
   }
 
   get amount() {
     return this._amount;
   }
 
-  // setter
-  set currency(Currency) {
-    this._currency = Currency;
+  set amount(value) {
+    if (typeof value !== 'number') {
+      throw new TypeError('amount must be a number');
+    }
+    this._amount = value;
   }
 
-  set amount(Amount) {
-    this._amount = Amount;
+  /**
+   * @returns {Currency}
+   */
+  get currency() {
+    return this._currency;
+  }
+
+  /**
+   * @param {Currency} value
+   */
+  set currency(value) {
+    if (!(value instanceof Currency)) {
+      throw new TypeError('currency must be a Currency');
+    }
+    this._currency = value;
   }
 
   displayFullPrice() {
-    return `${this._amount} ${this._currency.displayFullCurrency()}`; 
+    return `${this.amount} ${this.currency.name} (${this.currency.code})`;
   }
 
-  // static that calculates the amount multiplied by the conversion rate
+  /**
+   * static method convertPrice.
+   *
+   * @param {String} amount - The amount.
+   * @param {String} conversionRate - The conversionRate.
+   */
   static convertPrice(amount, conversionRate) {
+    if (typeof amount !== 'number') {
+      throw new TypeError('amount must be a number');
+    }
+    if (typeof conversionRate !== 'number') {
+      throw new TypeError('conversionRate must be a number');
+    }
     return amount * conversionRate;
   }
 }
